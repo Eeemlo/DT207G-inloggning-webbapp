@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Labb 4 - Auktorisering och autentisering</title>
 
     <link rel="stylesheet" href="css/layout.css">
-    <script src="js/main.js" type="module"></script>
+    <script src="js/protected.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 </head>
+
 <body>
-    <h1>Denna sida ska bara visas för inloggade</h1>
+
+    <!--Riktigt innehåll-->
+    <main id="actualContent" hidden>
+        <h1>Denna sida ska bara visas för inloggade</h1>
+    </main>
 </body>
+
 </html>

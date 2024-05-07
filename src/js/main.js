@@ -37,7 +37,8 @@ loginForm.addEventListener("submit", async (e) => {
 
             //Lyckad inloggning
             const data = await response.json();
-            localStorage.setItem("token: ", data.token); //Lagra token
+            console.log(data.response.token);
+            localStorage.setItem("token", data.response.token); //Lagra token
             window.location.href = "/protected.html" //Omdirigera användaren till skyddad route
 
         } catch(error) {

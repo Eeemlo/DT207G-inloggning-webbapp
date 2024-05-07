@@ -6,7 +6,7 @@
     <title>Labb 4 - Auktorisering och autentisering</title>
 
     <link rel="stylesheet" href="css/layout.css">
-    <script src="js/main.js" type="module"></script>
+    <script src="js/register.js" type="module"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +14,19 @@
         rel="stylesheet">
 </head>
 <body>
-    
+    <h1>Registrera användare</h1>
+
+    <form method="post" id="registerForm">
+<label for="addUsername">Användarnamn</label>
+<input type="text" id="addUsername" name="addUsername" placeholder="Välj användarnamn" required>
+<span id="usernameError"></span>
+<label for="addPassword">Lösenord</label>
+<input type="password" id="addPassword" name="addPassword" placeholder="Välj lösenord" required>
+<span id="passwordError"></span>
+<label for="controlPassword">Ange ditt valda lösenord igen</label>
+<input type="password" id="controlPassword" name="controlPassword" placeholder="Ange ditt lösenord" required>
+<span id="controlError"></span>
+<input type="submit" value="Registrera" id="registerBtn">    
+</form>
 </body>
 </html>
