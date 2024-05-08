@@ -31,21 +31,19 @@ logoutBtn.addEventListener("click", () => {
     window.location.href = "index.html";
 });
 
-
+//Hämta bilder från katt-API
 async function getCatData() {
     const response = await fetch("https://api.thecatapi.com/v1/images/search?api_key=live_cUJHzVEOks0Jqa0JXyWbECsNxJ1dechADhyDbeD5saymameaaSQYnHdGyLsvdRvG")
     const data = await response.json();
 
     displayCatImage(data);
-}
+};
 
-
+// Skriv ut kattbild till DOM
 async function displayCatImage(data) {
     const catImageContainer = document.querySelector("#catImageContainer");
-
-    console.log(catImageContainer);
     catImageContainer.innerHTML = `<img class="cat" src="${data[0].url}" alt="random kattbild">`
-}
+};
 
 getCatData();
 });
