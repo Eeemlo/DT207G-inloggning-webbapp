@@ -110,4 +110,6 @@ registerForm.addEventListener("submit", async (e) => {
 
     // Återställ formulärfält
     inputs.forEach(input => input.value = "");
+
+    window.location.href = "index.html";
 });
