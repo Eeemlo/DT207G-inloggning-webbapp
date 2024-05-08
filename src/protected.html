@@ -14,12 +14,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 </head>
+<header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Logga in</a></li>
+            <li><a href="register.html">Registrera</a></li>
+            <li><a href="protected.html">Mina sidor</a></li>
+        </ul>
+    </nav>
+</header>
 
 <body>
 
     <!--Riktigt innehåll-->
     <main id="actualContent" hidden>
-        <h1>Denna sida ska bara visas för inloggade</h1>
+        <h1>Nu är du inloggad!</h1>
+        <h2>Här får du en bild på en gullig katt..</h2>
+
+        <div id="catImageContainer"></div>
+
+        <button id="logoutBtn" class="btn">Logga ut</button>
     </main>
 </body>
 

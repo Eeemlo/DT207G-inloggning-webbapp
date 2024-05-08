@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,20 +14,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 </head>
-<body>
-    <h1>Registrera användare</h1>
 
-    <form method="post" id="registerForm">
-<label for="addUsername">Användarnamn</label>
-<input type="text" id="addUsername" name="addUsername" placeholder="Välj användarnamn" required>
-<span id="usernameError"></span>
-<label for="addPassword">Lösenord</label>
-<input type="password" id="addPassword" name="addPassword" placeholder="Välj lösenord" required>
-<span id="passwordError"></span>
-<label for="controlPassword">Ange ditt valda lösenord igen</label>
-<input type="password" id="controlPassword" name="controlPassword" placeholder="Ange ditt lösenord" required>
-<span id="controlError"></span>
-<input type="submit" value="Registrera" id="registerBtn">    
-</form>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Logga in</a></li>
+                <li><a href="register.html">Registrera</a></li>
+                <li><a href="protected.html">Mina sidor</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Registrera användare</h1>
+
+        <form method="post" id="registerForm">
+            <label for="addUsername">Välj användarnamn</label>
+            <input type="text" id="addUsername" name="addUsername" placeholder="Välj användarnamn" required>
+            <span id="usernameError"></span>
+            <label for="addPassword">Välj lösenord</label>
+            <input type="password" id="addPassword" name="addPassword" placeholder="Välj lösenord" required>
+            <span id="passwordError"></span>
+            <label for="controlPassword">Ange ditt valda lösenord igen</label>
+            <input type="password" id="controlPassword" name="controlPassword" placeholder="Ange ditt lösenord"
+                required>
+            <span id="controlError"></span>
+            <input type="submit" value="Registrera" id="registerBtn" class="btn">
+        </form>
+    </main>
 </body>
+
 </html>

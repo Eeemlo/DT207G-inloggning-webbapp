@@ -1,11 +1,13 @@
 // Url till API
-let url = "http://localhost:3002/api"
+let url = "http://localhost:3002/api";
 
+document.addEventListener("DOMContentLoaded", () => {
 // Hämta formulärets element
 const loginForm = document.querySelector("#signInForm");
 const usernameInput = document.querySelector("#username");
 const passwordInput = document.querySelector("#password");
 const loginBtn = document.querySelector("#loginBtn");
+const loginError = document.querySelector("#loginError");
 
 // Eventlyssnare för att logga in användare
 loginForm.addEventListener("submit", async (e) => {
@@ -22,32 +24,33 @@ loginForm.addEventListener("submit", async (e) => {
         const response = await fetch(url + "/login", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 username: username,
-                password: password
-            })
+                password: password,
+            }),
         });
-        
-        //Felmeddelande i konsolen om inloggning ej lyckas
-            if (!response.ok) {
-                throw new Error ("Inloggningen misslyckades!");
-            }
 
-            //Lyckad inloggning
-            const data = await response.json();
-            console.log(data.response.token);
-            localStorage.setItem("token", data.response.token); //Lagra token
-            window.location.href = "/protected.html" //Omdirigera användaren till skyddad route
-
-        } catch(error) {
-            console.error("Fel vid inloggning: " + error.message)
-            // LÄGG TILL KOD FÖR ATT HANTERA FELAKTIG INLOGGNING
+        //Felmeddelanden
+        if (!response.ok) {    
+            //Skriv ut felmeddelande till DOM
+        loginError.innerHTML = "Felaktigt användarnamn och/eller lösenord";
+        // Skriv ut felmeddelande i konsolen
+            throw new Error("Inloggningen misslyckades!");
         }
-    });
 
-    // Funktion för att hämta token från localStorage
+        //Lyckad inloggning
+        const data = await response.json();
+        console.log(data.response.token);
+        localStorage.setItem("token", data.response.token); //Lagra token
+        window.location.href = "/protected.html"; //Omdirigera användaren till skyddad route
+    } catch (error) {
+        console.error("Fel vid inloggning: " + error.message);
+    } 
+});
+
+// Funktion för att hämta token från localStorage
 function getToken() {
     return localStorage.getItem("token");
 }
@@ -57,14 +60,16 @@ async function fetchData() {
     try {
         const token = localStorage.getItem("token");
 
+        //Hämta protected routen och skicka med bearer token
         const response = await fetch(url + "/protected", {
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
-            }
+                Authorization: "Bearer " + token,
+                "Content-Type": "application/json",
+            },
         });
 
+        // Felmeddelande
         if (!response.ok) {
             throw new Error("Kunde inte hämta data från den skyddade routen!");
         }
@@ -78,3 +83,4 @@ async function fetchData() {
 
 // Anropa funktionen för att hämta skyddad data när sidan laddas
 fetchData();
+});

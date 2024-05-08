@@ -1,0 +1,107 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: "montserrat", sans-serif;
+    letter-spacing: 0.04em;
+    line-height: 1.5em;
+}
+
+header {
+    background-color: black;
+    min-height: 3.2em;
+    display: flex;
+    align-items: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 93vh;
+}
+
+ul {
+    display: flex;
+    list-style-type: none;
+}
+
+ul li {
+    display: flex;
+}
+
+li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 1em;
+    font-weight: 600;
+}
+
+li a:hover {
+    background-color: rgb(138, 88, 88);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 15px;
+}
+
+input {
+    width: 370px;
+    margin-bottom: 5px;
+}
+
+input[type=submit] {
+    margin-top: 15px;
+    max-width: 100px;
+    width: 100%;
+}
+
+span {
+    max-width: 370px;
+    width: 100%;
+    color: red;
+    font-size: 0.7em;
+    line-height: 1;
+    font-weight: 600;
+}
+
+h1 {
+    margin-bottom: 1em;
+}
+
+h2 {
+    margin-bottom: 0.5em;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 0.5em 1em;
+    border: none;
+    background-color: rgb(138, 88, 88);
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background-color: rgb(92, 59, 59);
+}
+
+.cat {
+    max-width: 500px;
+    max-height: 500px;
+}
+
+#password {
+    margin-bottom: 10px;
+}
