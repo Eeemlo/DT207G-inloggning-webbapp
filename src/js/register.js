@@ -81,7 +81,7 @@ registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     // Array som lagrar input-elementen för username och password
-    const inputs = [addUsername, addPassword];
+    const inputs = [addUsername, addPassword, controlPassword];
 
     const username = addUsername.value;
     const password = addPassword.value;
