@@ -5,7 +5,6 @@ const url = "http://localhost:3002/api";
 async function getData() {
     const response = await fetch(url + "/users");
     const data = await response.json();
-    console.log(data);
 }
 
 getData();
