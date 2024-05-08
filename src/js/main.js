@@ -46,3 +46,33 @@ loginForm.addEventListener("submit", async (e) => {
             // LÄGG TILL KOD FÖR ATT HANTERA FELAKTIG INLOGGNING
         }
     });
+
+    // Funktion för att hämta token från localStorage
+function getToken() {
+    return localStorage.getItem("token");
+}
+
+// Funktion för att göra fetch-anrop till den skyddade routen med token i header
+async function fetchData() {
+    const token = getToken(); // Hämta token från localStorage
+    try {
+        const response = await fetch(url + "/protected", {
+            headers: {
+                "Authorization": "Bearer " + token // Lägg till token i header
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Kunde inte hämta data från den skyddade routen!");
+        }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error("Fel vid hämtning av skyddad data: " + error.message);
+        // LÄGG TILL KOD FÖR ATT HANTERA FEL
+    }
+}
+
+// Anropa funktionen för att hämta data från den skyddade routen
+fetchData();
