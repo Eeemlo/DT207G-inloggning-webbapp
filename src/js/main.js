@@ -54,11 +54,14 @@ function getToken() {
 
 // Funktion för att göra fetch-anrop till den skyddade routen med token i header
 async function fetchData() {
-    const token = getToken(); // Hämta token från localStorage
     try {
+        const token = localStorage.getItem("token");
+
         const response = await fetch(url + "/protected", {
+            method: "GET",
             headers: {
-                "Authorization": "Bearer " + token // Lägg till token i header
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
             }
         });
 
@@ -67,12 +70,11 @@ async function fetchData() {
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log("Skyddad data:", data);
     } catch (error) {
-        console.error("Fel vid hämtning av skyddad data: " + error.message);
-        // LÄGG TILL KOD FÖR ATT HANTERA FEL
+        console.error("Fel vid hämtning av skyddad data:", error.message);
     }
 }
 
-// Anropa funktionen för att hämta data från den skyddade routen
+// Anropa funktionen för att hämta skyddad data när sidan laddas
 fetchData();
