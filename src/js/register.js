@@ -1,6 +1,6 @@
 "use strict";
 
-const url = "http://localhost:3002/api";
+const url = "http://localhost:3001/api";
 
 async function getData() {
     const response = await fetch(url + "/users");
@@ -15,7 +15,7 @@ const addUsername = document.querySelector("#addUsername");
 const addPassword = document.querySelector("#addPassword");
 const controlPassword = document.querySelector("#controlPassword");
 
-//Hämta containrar för felmeddelanden i formulär
+// Hämta containrar för felmeddelanden i formulär
 const usernameError = document.querySelector("#usernameError");
 const passwordError = document.querySelector("#passwordError");
 const controlError = document.querySelector("#controlError");
@@ -24,12 +24,12 @@ const controlError = document.querySelector("#controlError");
 const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
 
-//Funktion för att kontrollera lösenordets komplexitet
+// Funktion för att kontrollera lösenordets komplexitet
 function checkPasswordComplexity(password) {
     return passwordRegex.test(password);
 }
 
-//Eventlyssnare som kontrollerar att lösenorden som anges vid registrering är lika
+// Eventlyssnare som kontrollerar att lösenorden som anges vid registrering är lika
 controlPassword.addEventListener("input", () => {
     if (controlPassword.value !== addPassword.value) {
         controlError.innerHTML = "Lösenorden stämmer inte överens";
@@ -49,51 +49,33 @@ addPassword.addEventListener("input", () => {
     }
 });
 
-//Eventlyssnare som kontrollerar att användarnamnet är unikt och innehåller minst fem tecken
-addUsername.addEventListener("input", async () => {
-    const username = addUsername.value;
-    try {
-        const response = await fetch(url + "/users/user?username=" + username);
-        const data = await response.json();
-
-        // Ge felmeddelande om användarnamnet existerar
-        if (data.exists) {
-            usernameError.innerHTML = "Användarnamnet är upptaget";
-        } else {
-            usernameError.innerHTML = "";
-        }
-
-        // Ge felmeddelande om användarnamnet är kortare än 5 tecken
-        if (username.length < 5) {
-            usernameError.innerHTML =
-                "Användarnamnet måste bestå av minst fem tecken";
-        } else {
-            usernameError.innerHTML = "";
-        }
-    } catch (error) {
-        "Fel vid kontroll av användarnamn:", error;
-    }
-});
-
-//Eventlyssnare som skickar en POST-förfrågan vid klick på "registrera"
+// Eventlyssnare som skickar en POST-förfrågan vid klick på "registrera"
 registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    // Array som lagrar input-elementen för username och password
-    const inputs = [addUsername, addPassword, controlPassword];
 
     const username = addUsername.value;
     const password = addPassword.value;
 
-    // Objekt med användarnamn och lösenord
-    const credentials = {
-        username: username,
-        password: password,
-    };
-
+    // Kontrollera användarnamnet endast vid submit
     try {
-        // Skicka post-förfrågan till servern
-        const response = await fetch(url + "/register", {
+        // Kontrollera om användarnamnet är upptaget
+        const response = await fetch(url + "/users/user?username=" + username);
+        const data = await response.json();
+
+        if (data.exists) {
+            usernameError.innerHTML = "Användarnamnet är upptaget";
+            return; // Avbryt registrering om användarnamnet är upptaget
+        } else {
+            usernameError.innerHTML = "";
+        }
+
+        // Skicka post-förfrågan till servern om allt är OK
+        const credentials = {
+            username: username,
+            password: password,
+        };
+
+        const registerResponse = await fetch(url + "/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -101,15 +83,19 @@ registerForm.addEventListener("submit", async (e) => {
             body: JSON.stringify(credentials),
         });
 
-        const data = await response.json();
-        console.log(data);
+        const registerData = await registerResponse.json();
+        console.log(registerData);
+
+        // Återställ formulärfält
+        addUsername.value = "";
+        addPassword.value = "";
+        controlPassword.value = "";
+
+
+        // Omdirigera till login
+        window.location.href = "index.html";
+
     } catch (error) {
         console.error("Error:", error);
     }
-
-    // Återställ formulärfält
-    inputs.forEach(input => input.value = "");
-
-    // Omdirigera till login
-    window.location.href = "index.html";
 });

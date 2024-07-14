@@ -1,50 +1,81 @@
-"use strict";
+const apiUrl = "http://localhost:3001/api";
 
-// Körs när DOM-trädet är helt laddat
 document.addEventListener("DOMContentLoaded", init);
 
-// Kontrollera om giltig token finns i localStorage
 async function init() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); // Kontrollera om giltig token finns i localStorage
 
     if (!token) {
-        window.location.href = "index.html";
+        window.location.href = "index.html"; // Omdirigera till inloggningssidan om token saknas
     } else {
-        // Hämta det innehåll som ska visas
-        const actualContent = document.getElementById("actualContent");
-
-        // Ta bort hidden-attributet när giltig token finns
-        actualContent.removeAttribute("hidden");
+        try {
+            const data = await fetchProtectedData(token); // Hämta skyddad data
+            displayProtectedContent(data); // Visa skyddat innehåll
+        } catch (error) {
+            console.error("Fel vid hämtning av skyddad data:", error.message);
+            logoutUser(); // Logga ut användaren vid fel
+        }
     }
 }
 
+// Funktion för att hämta skyddad data från servern
+async function fetchProtectedData(token) {
+    const response = await fetch(`${apiUrl}/protected`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`, // Skicka token i Authorization-header
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Kunde inte hämta skyddad data");
+    }
+
+    return await response.json(); // Returnera skyddad data som JSON
+}
+
+// Funktion för att visa skyddat innehåll på sidan
+function displayProtectedContent(data) {
+    const actualContent = document.getElementById("actualContent");
+    actualContent.removeAttribute("hidden"); // Ta bort hidden-attributet för att visa innehållet
+
+    // Skriv ut användarnamn till DOM
+    const usernameContainer = document.getElementById("usernameContainer");
+    usernameContainer.innerHTML = `<h1>Inloggad som: ${data.username}</h1>`;
+}
+
+// Funktion för att logga ut användaren
+function logoutUser() {
+    localStorage.removeItem("token"); // Ta bort token från localStorage
+    window.location.href = "index.html"; // Omdirigera till inloggningssidan
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-// Hämta knappen för utloggning
-const logoutBtn = document.querySelector("#logoutBtn");
+    const logoutBtn = document.querySelector("#logoutBtn");
 
-// Lägg till en händelselyssnare för utloggning
-logoutBtn.addEventListener("click", () => {
-    // Ta bort token från localStorage
-    localStorage.removeItem("token");
+    logoutBtn.addEventListener("click", () => {
+        logoutUser(); // Logga ut användaren när knappen klickas
+    });
 
-    //Omdirigera till startsidan
-    window.location.href = "index.html";
+    getCatData(); // Hämta kattdata från API
 });
 
-//Hämta bilder från katt-API
+// Funktion för att hämta kattdata från API
 async function getCatData() {
-    const response = await fetch("https://api.thecatapi.com/v1/images/search?api_key=live_cUJHzVEOks0Jqa0JXyWbECsNxJ1dechADhyDbeD5saymameaaSQYnHdGyLsvdRvG")
-    const data = await response.json();
+    try {
+        const response = await fetch(
+            "https://api.thecatapi.com/v1/images/search?api_key=live_cUJHzVEOks0Jqa0JXyWbECsNxJ1dechADhyDbeD5saymameaaSQYnHdGyLsvdRvG"
+        );
+        const data = await response.json();
+        displayCatImage(data); // Visa kattbild på sidan
+    } catch (error) {
+        console.error("Fel vid hämtning av kattbilder:", error.message);
+    }
+}
 
-    displayCatImage(data);
-};
-
-// Skriv ut kattbild till DOM
-async function displayCatImage(data) {
+// Funktion för att visa kattbild på sidan
+function displayCatImage(data) {
     const catImageContainer = document.querySelector("#catImageContainer");
-    catImageContainer.innerHTML = `<img class="cat" src="${data[0].url}" alt="random kattbild">`
-};
-
-getCatData();
-});
-
+    catImageContainer.innerHTML = `<img class="cat" src="${data[0].url}" alt="random kattbild">`;
+}
