@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3001/api";
+const apiUrl = "https://authorization-server-1.onrender.com/api";
 
 document.addEventListener("DOMContentLoaded", init);
 

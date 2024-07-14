@@ -1,4 +1,4 @@
-const url = "http://localhost:3001/api";
+const url = "https://authorization-server-1.onrender.com/api";
 
 document.addEventListener("DOMContentLoaded", () => {
     // Hämta formulärets element
